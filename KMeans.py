@@ -11,23 +11,34 @@ class KMeans(cluster):
     # it is often attractive to fix the maximum iterations to some finite number — eg. 100
     def fit(self, X):
         """
-        pseudo code from lesson notes:
+        pseudocode from lesson notes:
+        place k centroids μ1, μ2, ..., μk ∈ ℝ^n randomly
 
+        # Repeat until convergence
+        repeat to convergence:
+            # For each point x in the dataset
+            foreach x ∈ test_x:
+                c^(i) = index of closest centroid to x
+
+            # For each centroid
+            foreach k ∈ centroids:
+                μk = mean of all points assigned to centroid k
         """
         # converge when no x^i changes its cluster
-        # Initialize centroids randomly from the dataset
-        np.random.seed(66)
+        np.random.seed(6)
+
         self.centroids = [X[i] for i in np.random.choice(range(len(X)), self.k, replace=False)]
 
         for _ in range(self.max_iterations):
-            # Assign clusters
+            # Assignment step
             clusters = [[] for _ in range(self.k)]
             for xi in X:
+                # calculate the Euclidean distance between two points
                 distances = [np.linalg.norm(np.array(xi) - np.array(centroid)) for centroid in self.centroids]
                 cluster_index = distances.index(min(distances))
                 clusters[cluster_index].append(xi)
 
-            # Update centroids
+            # Update step
             new_centroids = [np.mean(cluster, axis=0).tolist() for cluster in clusters if cluster]
 
             # Check for convergence (if centroids do not change)
