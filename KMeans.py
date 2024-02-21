@@ -65,6 +65,7 @@ class KMeans(cluster):
                 break
 
             self.centroids = new_centroids
+
         # Assign labels based on final centroids
         if not self.balanced:
             labels = []
